@@ -29,7 +29,7 @@
 
 		# Case: DateTime
 		if ($Value -is [datetime]) {
-			return '"{0:yyyy-MM-dd HH:mm:ss.fffff zzz}"' -f $Value.ToUniversalTime()
+			return "'{0:yyyy-MM-dd HH:mm:ss.fffff zzz}'" -f $Value.ToUniversalTime()
 		}
 
 		# Case: Guid
@@ -44,7 +44,7 @@
 
 		# Case: String
 		if ($Value -is [string] -or $Value -is [char] -or $Value -is [System.Uri]) {
-			return '''{0}''' -f ($Value -replace "'","''")
+			return '''{0}''' -f ([System.Management.Automation.Language.CodeGeneration]::EscapeSingleQuotedStringContent($Value))
 		}
 
 		# Case: Hashtable
@@ -69,7 +69,7 @@
 
 		# Case: Enum
 		if ($Value -is [enum]) {
-			return "'{0}'" -f ("$Value" -replace "'", "''")
+			return "'{0}'" -f ([System.Management.Automation.Language.CodeGeneration]::EscapeSingleQuotedStringContent($Value))
 		}
 
 		# Case: Assembly
